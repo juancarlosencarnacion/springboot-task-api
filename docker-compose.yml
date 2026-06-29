@@ -1,16 +1,26 @@
 services:
-  db:
-    image: postgres:16
-    container_name: taskapidb
-    restart: unless-stopped
-    environment: 
-      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
-      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    volumes:
-      - taskapi_data:/var/lib/postgresql/data
-    ports:
-      - "5438:5432"
+  # db:
+  #   image: postgres:16
+  #   container_name: taskapidb
+  #   restart: unless-stopped
+  #   environment: 
+  #     POSTGRES_DB: ${SPRING_DATASOURCE_DB}
+  #     POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+  #     POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+  #   volumes:
+  #     - taskapi_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5438:5432"
 
-volumes:
-  taskapi_data:
+  task-api:
+    build: .
+    container_name: task-api
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      APP_PORT: ${APP_PORT}
+    ports:
+      - "8085:8085"
+
+# volumes:
+#   taskapi_data:
