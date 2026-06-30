@@ -54,3 +54,7 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+    
+    - name: Notificar despliegue a Render
+      run: |
+        curl -X POST "${{ secrets.RENDER_DEPLOY_WEBHOOK_URL }}"
