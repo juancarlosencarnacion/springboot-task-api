@@ -61,9 +61,14 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("hello")
+    @GetMapping("/hello")
     public ResponseEntity<?> hello() {
         return ResponseEntity.ok("hello");
+    }
+
+    @GetMapping("/overview")
+    public ResponseEntity<?> overview(){
+        return ResponseEntity.ok(taskService.overview());
     }
 
 }

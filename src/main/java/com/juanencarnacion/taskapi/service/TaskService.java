@@ -3,11 +3,14 @@ package com.juanencarnacion.taskapi.service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.juanencarnacion.taskapi.dto.TaskRequestDto;
 import com.juanencarnacion.taskapi.dto.TaskResponseDto;
+import com.juanencarnacion.taskapi.dto.TasksOverview;
 import com.juanencarnacion.taskapi.enums.TaskStatusEnum;
 import com.juanencarnacion.taskapi.model.TaskEntity;
 import com.juanencarnacion.taskapi.repository.TaskRepository;
@@ -105,5 +108,20 @@ public class TaskService {
                 .orElseThrow(() -> new RuntimeException("Task not found"));
 
         taskRepository.delete(taskFound);
+    }
+
+    public TasksOverview overview() {
+        List<TaskEntity> allTasks = taskRepository.findAll();
+
+        Map<TaskStatusEnum, Long> counts = allTasks.stream()
+                .collect(Collectors.groupingBy(
+                        TaskEntity::getStatus,
+                        Collectors.counting()));
+
+        Long pendingTotal = counts.getOrDefault(TaskStatusEnum.PENDING, 0L);
+        Long inProgressTotal = counts.getOrDefault(TaskStatusEnum.IN_PROGRESS, 0L);
+        Long completedTotal = counts.getOrDefault(TaskStatusEnum.COMPLETED, 0L);
+
+        return new TasksOverview(pendingTotal, inProgressTotal, completedTotal);
     }
 }
