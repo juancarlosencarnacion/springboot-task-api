@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: jc-task-api
+    env: image
+    imageRepo: ghcr.io/juancarlosencarnacion/springboot-task-api:latest
+    envVars:
+      - key: PORT
+        value: 8085

@@ -26,9 +26,6 @@ jobs:
     - name: Ejecutar Pruebas Unitarias con Maven
       run: ./mvnw clean test # Corre tus tests de JUnit/Mockito primero
 
-    # - name: Compilar el archivo JAR
-    #   run: ./mvnw package -DskipTests # Genera el JAR (saltando los tests porque ya se ejecutaron arriba)
-
     - name: Iniciar sesión en GitHub Container Registry (GHCR)
       uses: docker/login-action@v3
       with:
